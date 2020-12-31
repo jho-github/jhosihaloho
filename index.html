@@ -1,100 +1,181 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Progate</title>
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="stylesheet.css">
-  <link rel="stylesheet" type="text/css" href="responsive.css">
-  <link rel="shortcut icon" href="favicon.ico" >
-  <!--     ┬ ┬┌─┐  ┌─┐┬─┐┌─┐        -->
-  <!--     │││├┤   ├─┤├┬┘├┤         -->
-  <!--     └┴┘└─┘  ┴ ┴┴└─└─┘        -->
-  <!--     ╔═╗╦═╗╔═╗╔═╗╔═╗╔╦╗╔═╗    -->
-  <!--     ╠═╝╠╦╝║ ║║ ╦╠═╣ ║ ║╣     -->
-  <!--     ╩  ╩╚═╚═╝╚═╝╩ ╩ ╩ ╚═╝    -->
+    <title>Catatan Harianku</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .table>thead>tr>th {
+            padding: 60px;
+        }
+    </style>
+
+
 </head>
-<body>
-    <header>
-      <div class="container">
-        <div class="header-left">
-          <img class="logo" src="https://prog-8.com/images/html/advanced/main_logo.png">
+
+<body onload="loadCatatan();">
+
+    <div class="col-xs-12 col-md-8 col-md-offset-2" ng-controller="listContactCtrl">
+        <div class="page-header">
+            <h1 align="center">
+                Catatan Harianku
+            </h1>
+            <ul class="nav nav-pills">
+                <li><a id="nav-list-catatan" href="javascript:void(0);" onclick="gantiMenu('list-catatan');">List Catatan</a></li>
+                <li><a id="nav-tambah-catatan" href="javascript:void(0);" onclick="gantiMenu('tambah-catatan');">Tambah Catatan</a></li>
+            </ul>
+
         </div>
-        <span class="fa fa-bars menu-icon"></span>
-        <div class="header-right">
-          <a href="#">Lessons</a>
-          <a href="#">Sign in</a>
-          <a href="#" class="login">Log in</a>
+        <div id="tambah-catatan" class="well" style="display:none;">
+            <form id="form-data">
+                <div id="nama-group" class="form-group">
+                    <label>Nama:</label>
+                    <input type="text" class="form-control" id="nama" name="nama">
+                </div>
+                <div id="tanggal-group" class="form-group">
+                    <label>Tanggal:</label>
+                    <input type="text" class="form-control" id="tanggal" name="tanggal">
+                </div>
+                <div id="agenda-group" class="form-group">
+                    <label>Agenda:</label>
+                    <textarea class="form-control" id="agenda" name="agenda"></textarea><br />
+                </div>
+                <input type="button" value="Simpan" onclick="simpanData();" class="btn btn-success btn-small" />
+                <input type="reset" value="Reset" onclick="" class="btn btn-warning btn-small" />
+            </form>
         </div>
-      </div>
-    </header>
-    <div class="top-wrapper">
-      <div class="container">
-        <h1>LEARN TO CODE.</h1>
-        <h1>LEARN TO BE CREATIVE.</h1>
-        <p>Progate is a web service where you can learn programming online.</p>
-        <p>We offer you a fully equipped coding environment to get you started.</p>
-        <div class="btn-wrapper">
-          <a href="#" class="btn signup">Sign up with Email</a>
-          <p>or</p>
-          <a href="#" class="btn facebook"><span class="fa fa-facebook"></span>Sign up with Facebook</a>
-          <a href="#" class="btn twitter"><span class="fa fa-twitter"></span>Sign up with Twitter</a>
+
+        <div id="edit-data" class="well" style="display:none;">
+            <form id="eform-data">
+
+                <div id="nama-group" class="form-group" style="display:none;">
+                    <label>id data:</label>
+                    <input type="text" class="form-control" id="eid_data" name="nama">
+                </div>
+
+                <div id="nama-group" class="form-group">
+                    <label>Nama:</label>
+                    <input type="text" class="form-control" id="enama" name="nama">
+                </div>
+                <div id="tanggal-group" class="form-group">
+                    <label>Tanggal:</label>
+                    <input type="text" class="form-control" id="etanggal" name="tanggal">
+                </div>
+                <div id="agenda-group" class="form-group">
+                    <label>Agenda:</label>
+                    <textarea class="form-control" id="eagenda" name="agenda"></textarea><br />
+                </div>
+                <input type="button" value="Simpan" onclick="simpanEditData();" class="btn btn-success btn-small" />
+                <input type="reset" value="Reset" onclick="" class="btn btn-warning btn-small" />
+                <input type="button" value="Cancel" onclick="gantiMenu('list-catatan');" class="btn btn-warning btn-small" />
+            </form>
         </div>
-      </div>
+
+        <div id="lihat-data" class="well" style="display:none;">
+            <form id="eform-data">
+
+                <div id="nama-group" class="form-group" style="display:none;">
+                    <label for="disabled">id data:</label>
+                    <input type="text" class="form-control" id="lid_data" name="nama" disabled>
+                </div>
+
+                <div id="nama-group" class="form-group">
+                    <label for="disabled">Nama:</label>
+                    <input type="text" class="form-control" id="lnama" name="nama" disabled>
+                </div>
+                <div id="tanggal-group" class="form-group">
+                    <label for="disabled">Tanggal:</label>
+                    <input type="text" class="form-control" id="ltanggal" name="tanggal" disabled>
+                </div>
+                <div id="agenda-group" class="form-group">
+                    <label for="disabled">Agenda:</label>
+                    <textarea class="form-control" id="lagenda" name="agenda" disabled></textarea>
+                </div>
+                <input type="button" value="Kembali" onclick="gantiMenu('list-catatan');" class="btn btn-warning btn-small" />
+            </form>
+        </div>
+
+
+        <div id="list-catatan" class="well">
+            Pilih List Catatan untuk melihat catatan yang sudah dibuat.
+        </div>
+        <!--Konten LIFF v2-->
+
+        <div id="liffAppContent">
+            <!-- ACTION BUTTONS -->
+            <div class="buttonGroup">
+                <div class="buttonRow">
+                    <button id="openWindowButton" class="btn btn-success btn-small">Open External Window</button>
+                    <button id="closeWindowButton" class="btn btn-danger btn-small">Close LIFF App</button>
+                    <button id="sendMessageButton" class="btn btn-warning btn-small">Send Message</button>
+                </div>
+
+            </div>
+
+            <!-- LIFF DATA -->
+            <div id="liffData">
+                <h3 id="liffDataHeader" class="textLeft">Informasi:</h3>
+                <table>
+                    <tr>
+                        <th>isInClient : </th>
+                        <td id="isInClient" class="textLeft"></td>
+                    </tr>
+                    <tr>
+                        <th>isLoggedIn : </th>
+                        <td id="isLoggedIn" class="textLeft"></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- LOGIN LOGOUT BUTTONS -->
+            <div class="buttonGroup">
+                <button id="liffLoginButton" class="btn btn-success btn-small">Log in</button>
+                <button id="liffLogoutButton" class="btn btn-warning btn-small">Log out</button>
+            </div>
+            <div id="statusMessage">
+                <div id="isInClientMessage"></div>
+                <div id="apiReferenceMessage">
+                    <p>Available LIFF methods vary depending on the browser you use to open the LIFF app.</p>
+                    <p>Please refer to the <a href="https://developers.line.biz/en/reference/liff/#initialize-liff-app">API reference
+                            page</a> for more information.</p>
+                </div>
+            </div>
+        </div>
+        <!-- LIFF ID ERROR -->
+        <div id="liffIdErrorMessage" class="hidden">
+            <p>You have not assigned any value for LIFF ID.</p>
+            <p>If you are running the app using Node.js, please set the LIFF ID as an environment variable in your Heroku account follwing the below steps: </p>
+            <code id="code-block">
+                <ol>
+                    <li>Go to `Dashboard` in your Heroku account.</li>
+                    <li>Click on the app you just created.</li>
+                    <li>Click on `Settings` and toggle `Reveal Config Vars`.</li>
+                    <li>Set `MY_LIFF_ID` as the key and the LIFF ID as the value.</li>
+                    <li>Your app should be up and running. Enter the URL of your app in a web browser.</li>
+                </ol>
+            </code>
+            <p>If you are using any other platform, please add your LIFF ID in the <code>index.html</code> file.</p>
+            <p>For more information about how to add your LIFF ID, see <a href="https://developers.line.biz/en/reference/liff/#initialize-liff-app">Initializing the LIFF
+                    app</a>.</p>
+        </div>
+        <!-- LIFF INIT ERROR -->
+        <div id="liffInitErrorMessage" class="hidden">
+            <p>Something went wrong with LIFF initialization.</p>
+            <p>LIFF initialization can fail if a user clicks "Cancel" on the "Grant permission" screen, or if an error occurs in the process of <code>liff.init()</code>.
+        </div>
+        <!-- NODE.JS LIFF ID ERROR -->
+        <div id="nodeLiffIdErrorMessage" class="hidden">
+            <p>Unable to receive the LIFF ID as an environment variable.</p>
+        </div>
     </div>
-    <div class="lesson-wrapper">
-      <div class="container">
-        <div class="heading">
-          <h2>Learn Where to Get Started!</h2>
-        </div>
-        <div class="lessons">
-          <div class="lesson">
-            <div class="lesson-icon">
-              <img src="https://prog-8.com/images/html/advanced/html.png">
-              <p>HTML & CSS</p>
-            </div>
-            <p class="text-contents">Languages used to build and design the appearances of your websites. HTML adds the structure, and CSS styles it.</p>
-          </div>
-          <div class="lesson">
-            <div class="lesson-icon">
-              <img src="https://prog-8.com/images/html/advanced/jQuery.png">
-              <p>jQuery</p>
-            </div>
-            <p class="text-contents">A fast, feature-rich and easy-to-use JavaScript library that handles animations and Ajax requests.</p>
-          </div>
-          <div class="lesson">
-            <div class="lesson-icon">
-              <img src="https://prog-8.com/images/html/advanced/ruby.png">
-              <p>Ruby</p>
-            </div>
-            <p class="text-contents">A dynamic, general-purpose language that is simple and productive. It is commonly used around the world to build web applications.</p>
-          </div>
-          <div class="lesson">
-            <div class="lesson-icon">
-              <img src="https://prog-8.com/images/html/advanced/php.png">
-              <p>PHP</p>
-            </div>
-            <p class="text-contents">An open source scripting language that can be embedded into HTML, and well suited for web development.</p>
-          </div>
-          <div class="clear"></div>
-        </div>
-      </div>
-    </div>
-    <div class="message-wrapper">
-      <div class="container">
-        <div class="heading">
-          <h2>Ready to become an awesome programmer?</h2>
-          <h3>Let's learn to code, learn to be creative!</h3>
-        </div>
-        <span class="btn message">Start Learning</span>
-      </div>
-    </div>
-    <footer>
-      <div class="container">
-        <img src="https://prog-8.com/images/html/advanced/footer_logo.png">
-        <p>Learn to code, learn to be creative.</p>
-      </div>
-    </footer>
-  </body>
+</body>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="script.js"></script>
+<script src="liff-starter.js"></script>
+
 </html>
